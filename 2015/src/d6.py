@@ -1,4 +1,4 @@
-# Day X of 2015
+# Day 6 of 2015
 import numpy as np
 import matplotlib.pyplot as plt
 import re
@@ -94,20 +94,3 @@ plt.savefig('./2015/img/lights_ancient_d6.png', bbox_inches='tight', pad_inches=
 plt.close()
 
 print('Part 2 solution:', int(np.sum(my_awesome_lights.grid)))
-
-# zeros = np.zeros((1000,1000))
-# zeros[2:4, 2:4] = 1
-# zeros[1:5, 1:5] = np.abs(zeros[1:5, 1:5] - 1)
-# print(zeros[1:5, 1:5])
-
-
-# print(zeros[999, 999])
-
-# plt.imshow(zeros, cmap='binary', interpolation='nearest')
-# plt.colorbar(ticks=[0, 1])
-# plt.title('Heatmap of 0s and 1s')
-# plt.xlabel('Columns')
-# plt.ylabel('Rows')
-# plt.show()
-
-# print(re.findall(r'\d+', 'turn on 0,0 through 999,999'))
