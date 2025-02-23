@@ -1,7 +1,7 @@
 # Day 8 of 2015
 import re
 
-
+# =========== CLASSES AND FUNCTIONS =============
 def calc_string_vals(string):
     str_len =  len(string)
 
@@ -18,9 +18,7 @@ def calc_string_vals(string):
 
     return (str_len, mem_len, new_len)
 
-
-
-# ================= PART 1 & 2 ======================
+# =============== TEST CASES ====================
 test_cases = {'""': (2, 0, 6),
               '"abc"': (5, 3, 9),
               r'"aaa\"aaa"': (10, 7, 16),
@@ -28,18 +26,15 @@ test_cases = {'""': (2, 0, 6),
 
 for string, lengths in test_cases.items():
 
-    # print(calc_string_vals(string))
     assert calc_string_vals(string) == lengths, f"the {string} did not match {lengths}"
 
-
-# load in the actual puzzle input
+# =============== PART 1 & 2 ====================
 tot_str_len = 0
 tot_mem_len = 0
 new_enc_len = 0
 
 with open('./2015/inputs/d8.txt') as f:
     for j, row in enumerate(f):
-
 
         (tmp_str, tmp_mem, tmp_new) = calc_string_vals(row.strip()) 
         # print(tmp_str, tmp_mem)
