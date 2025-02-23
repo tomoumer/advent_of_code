@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import re
 
+# =========== CLASSES AND FUNCTIONS =============
 class LightGrid:
 
     def __init__(self):
@@ -31,66 +32,55 @@ class LightGrid:
             self.grid[x_start: x_end+1, y_start: y_end+1] = self.grid[x_start: x_end+1, y_start: y_end+1] + 2
         else:
             raise('uh oh unknown instructions')
+        
 
     def reset(self):
         self.grid = np.zeros((1000,1000))
 
+def plot_lights(lights_grid, name=''):
+    plt.figure(figsize=(8, 8))
+    plt.imshow(lights_grid, cmap='copper', aspect='equal') 
+    plt.axis('off')
+    plt.title('My Best Light Show')
+    plt.savefig(f'./2015/img/{name}_d6.png', bbox_inches='tight', pad_inches=0)
+    plt.close()
 
-
-# load in the actual puzzle input
-puzzle_input = []
-
-with open('./2015/inputs/d6.txt') as f:
-    for j, row in enumerate(f):
-        puzzle_input.append(row)
-
-print('input rows', len(puzzle_input))
-
-my_awesome_lights = LightGrid()
-
-# ================= PART 1 ======================
+# =============== TEST CASES ====================
+test_lights = LightGrid()
 test_cases = {'turn on 0,0 through 999,999': 1000000,
               'toggle 0,0 through 999,0': 1000,
               'turn on 499,499 through 500,500': 4}
 
 for instructions, total_lights in test_cases.items():
-    my_awesome_lights.reset()
-    my_awesome_lights.switch_lights(instructions)
-    assert np.sum(my_awesome_lights.grid) == total_lights, f"problem with {instructions}"
+    test_lights.reset()
+    test_lights.switch_lights(instructions)
+    assert np.sum(test_lights.grid) == total_lights
 
-my_awesome_lights.reset()
-for instructions in puzzle_input:
-    my_awesome_lights.switch_lights(instructions)
-
-
-plt.figure(figsize=(8, 8))
-plt.imshow(my_awesome_lights.grid, cmap='copper', aspect='equal') 
-plt.axis('off')
-plt.title('My Best Light Show')
-plt.savefig('./2015/img/lights_d6.png', bbox_inches='tight', pad_inches=0)
-plt.close()
-# plt.show()
-
-print('Part 1 solution:', int(np.sum(my_awesome_lights.grid)) )
-
-# ================= PART 2 ======================
 test_cases = {'turn on 0,0 through 0,0': 1,
               'toggle 0,0 through 999,999': 2000000}
 
 for instructions, total_lights in test_cases.items():
-    my_awesome_lights.reset()
-    my_awesome_lights.ancient_swithch_lights(instructions)
-    assert np.sum(my_awesome_lights.grid) == total_lights, f"problem with {instructions}"
+    test_lights.reset()
+    test_lights.ancient_swithch_lights(instructions)
+    assert np.sum(test_lights.grid) == total_lights
 
-my_awesome_lights.reset()
-for instructions in puzzle_input:
-    my_awesome_lights.ancient_swithch_lights(instructions)
 
-plt.figure(figsize=(8, 8))
-plt.imshow(my_awesome_lights.grid, cmap='copper', aspect='equal') 
-plt.axis('off')
-plt.title('My Best Light Show')
-plt.savefig('./2015/img/lights_ancient_d6.png', bbox_inches='tight', pad_inches=0)
-plt.close()
+# ================ PART 1 & 2 =====================
+all_instructions = []
 
-print('Part 2 solution:', int(np.sum(my_awesome_lights.grid)))
+with open('./2015/inputs/d6.txt') as f:
+    for row in f:
+        all_instructions.append(row.strip())
+
+my_awesome_lights = LightGrid()
+my_even_awesomer_lights = LightGrid()
+
+for instructions in all_instructions:
+    my_awesome_lights.switch_lights(instructions) # part 1
+    my_even_awesomer_lights.ancient_swithch_lights(instructions) # part 2
+
+plot_lights(my_awesome_lights.grid, 'lights')
+plot_lights(my_even_awesomer_lights.grid, 'lights_ancient')
+
+print('Part 1 solution:', int(np.sum(my_awesome_lights.grid)) )
+print('Part 2 solution:', int(np.sum(my_even_awesomer_lights.grid)))

@@ -1,7 +1,7 @@
 # Day 4 of 2015
-
 import hashlib
 
+# =========== CLASSES AND FUNCTIONS =============
 def get_md5_hex(string):
 
     encoded_string = string.encode('utf-8')
@@ -23,24 +23,20 @@ def find_lowest_positive(string, num_zeros=5):
 
     return i
 
-puzzle_input = []
-
-with open('./2015/inputs/d4.txt') as f:
-    for j, row in enumerate(f):
-        puzzle_input.append(row)
-
-print('input rows', len(puzzle_input))
-
-# ================= PART 1 ======================
+# =============== TEST CASES ====================
 test_cases = {'abcdef': 609043,
               'pqrstuv': 1048970}
 
 for key, lowest_int in test_cases.items():
-    assert find_lowest_positive(key) == lowest_int, f"the {key} did not match {lowest_int}"
+    assert find_lowest_positive(key) == lowest_int
 
 
-print('Part 1 solution:', find_lowest_positive(puzzle_input[0]))
+# ================= PART 1 ======================
+with open('./2015/inputs/d4.txt') as f:
+    for row in f:
+        start_key = row.strip()
+
+print('Part 1 solution:', find_lowest_positive(start_key, num_zeros=5))
 
 # ================= PART 2 ======================
-
-print('Part 2 solution:', find_lowest_positive(puzzle_input[0], num_zeros=6))
+print('Part 2 solution:', find_lowest_positive(start_key, num_zeros=6))
