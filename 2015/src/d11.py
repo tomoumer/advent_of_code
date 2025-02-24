@@ -1,7 +1,7 @@
 # Day 11 of 2015
 
-# NOTE: yeah this one really didn't need a class... but I like class Santa!
-
+# =========== CLASSES AND FUNCTIONS =============
+# NOTE: yeah this one REALLY didn't need a class... but I like Santa class so I'm going to keep making it!
 class Santa():
     
     def __init__(self, password):
@@ -76,11 +76,8 @@ class Santa():
         self.password = password
 
 
-
-# ================= PART 1 ======================
-
+# =============== TEST CASES ====================
 santa = Santa('')
-
 
 test_passwords = {'abcdefgh': 'abcdffaa',
                   'ghijklmn': 'ghjaabcc'}
@@ -95,27 +92,30 @@ for wrong_pwd, new_pwd in test_passwords.items():
     assert santa.password == new_pwd, f"Password {santa.password} don't match {new_pwd}"
 
 
-# load in the actual puzzle input
+# =============== PART 1 & 2 ====================
 with open('./2015/inputs/d11.txt') as f:
-    for j, row in enumerate(f):
+    for row in f:
         santa_pwd = row.strip()
 
 santa.reset_pwd(santa_pwd)
 
-acceptable_pwd = False
-while not acceptable_pwd:
+acceptable_pwd1 = False
+while True:
     acceptable_pwd = santa.check_pwd()
 
-print('Part 1 solution:', santa.password)
+    # part 1
+    if acceptable_pwd and (not acceptable_pwd1):
+        pwd_part1 = santa.password
+        acceptable_pwd1 = True
 
-# ================= PART 2 ======================
+        # this next line gets it to part 2
+        santa.change_pwd(len(santa.password) - 1)
+    
+    # part 2
+    elif acceptable_pwd and acceptable_pwd1:
+        pwd_part2 = santa.password
+        break
 
-# it expired, so need to change it by incrementing
-santa.change_pwd(len(santa.password) - 1)
 
-acceptable_pwd = False
-while not acceptable_pwd:
-    acceptable_pwd = santa.check_pwd()
-
-# hxbyyzaa
-print('Part 2 solution:', santa.password)
+print('Part 1 solution:', pwd_part1)
+print('Part 2 solution:', pwd_part2)

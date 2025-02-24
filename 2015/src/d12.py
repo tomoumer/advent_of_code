@@ -2,7 +2,7 @@
 import re
 import json
 
-
+# =========== CLASSES AND FUNCTIONS =============
 def unpack_json(layer):
     global tot_sum
     if type(layer) == list:
@@ -22,7 +22,7 @@ def unpack_json(layer):
     elif type(layer) == int:
         tot_sum += layer
 
-
+# =============== TEST CASES ====================
 test_cases = {
     '[1,2,3]': 6,
     '{"a":2,"b":4}': 6,
@@ -36,28 +36,23 @@ test_cases = {
 
 for items, value in test_cases.items():
     all_numbers = [int(x) for x in re.findall('-?\d+', items)]
-    assert sum(all_numbers) == value, f"The {items} does not match {value}"
+    assert sum(all_numbers) == value
 
 # ================= PART 1 ======================
-
-# # load in the actual puzzle input
 with open('./2015/inputs/d12.txt') as f:
-    for j, row in enumerate(f):
+    for row in f:
         puzzle_input = row.strip()
 
-all_numbers = [int(x) for x in re.findall('-?\d+', puzzle_input)]
+all_numbers = map(int, re.findall('-?\d+', puzzle_input))
 
 print('Part 1 solution:', sum(all_numbers))
 
 # ================= PART 2 ======================
-
 # so for the first part I just parsed it as a string .. now  I'm actually going to json
-
 tot_sum = 0
 
 with open('./2015/inputs/d12.json', 'r') as file:
     data = json.load(file)
-
 
 unpack_json(data)
 
