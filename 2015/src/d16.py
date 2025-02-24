@@ -1,6 +1,6 @@
 # Day 16 of 2015
 
-
+# =============== PART 1 & 2 ====================
 gift_mfcsam = {
     'children': 3,
     'cats': 7,
@@ -33,8 +33,6 @@ with open('./2015/inputs/d16.txt') as f:
 
                 aunt_suectionary[sue_nr][compound_name] = compound_nr
 
-# ================= PART 1 ======================
-
 fake_sue = ''
 correct_sue = ''
 
@@ -64,9 +62,5 @@ for sue, compounds in aunt_suectionary.items():
     elif possible_sue2:
         correct_sue = sue
 
-
 print('Part 1 solution:', int(fake_sue.split(' ')[1]))
-
-# ================= PART 2 ======================
-
 print('Part 2 solution:', int(correct_sue.split(' ')[1]))

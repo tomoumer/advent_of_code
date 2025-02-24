@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import imageio
 import os
 
-# NOTE running this one takes a while because it creates a giff!
-
+# NOTE running this one takes a while because it saves images, then removes them and creates a giff!
+# =========== CLASSES AND FUNCTIONS =============
 def check_neighbors(pos_x, pos_y, lights_config):
 
     neighbors_on = 0
@@ -20,8 +20,6 @@ def check_neighbors(pos_x, pos_y, lights_config):
         neighbors_on += lights_config[neighbor]
 
     return neighbors_on
-
-
 
 # Oh hey it's the Conway's game of life!
 def update_lights(lights_config, broken_corners=False):
@@ -48,74 +46,32 @@ def update_lights(lights_config, broken_corners=False):
 
     return new_lights_config
 
-def save_light_img(lights_config, n):
+def save_light_img(lights_config, n, stat='orig'):
     plt.figure(figsize=(8, 8))
     plt.imshow(lights_config, cmap='copper', aspect='equal') 
     plt.axis('off')
     plt.title('BEST Game of LightShow')
-    plt.savefig(f'./2015/img/lights_step{str(n).zfill(3)}_d18.png', bbox_inches='tight', pad_inches=0)
+    plt.savefig(f'./2015/img/lights_step{str(n).zfill(3)}_{stat}d18.png', bbox_inches='tight', pad_inches=0)
     plt.close()
 
-def make_light_giff(giff_name):
+def make_light_giff(giff_name, stat='orig'):
     images = []
     all_images = os.listdir('./2015/img/')
     all_images = sorted(all_images)
     for filename in all_images:
-        if filename.endswith('d18.png'):
+        if filename.endswith(f'{stat}d18.png'):
             images.append(imageio.v3.imread('./2015/img/' + filename))
             os.remove('./2015/img/' + filename)
             imageio.mimsave(f'./2015/img/{giff_name}_d18.gif', images, format='GIF', duration=500) # duration in ms
 
-
-
-# # load in the actual puzzle input
-puzzle_input = []
-
-with open('./2015/inputs/d18.txt') as f:
-    for j, row in enumerate(f):
-        puzzle_input.append([1 if x =='#' else 0 for x in row.strip()])
-
-lights_config = np.array(puzzle_input)
-
-print('lights shape', lights_config.shape)
-
-
-test_input_start = """.#.#.#
-...##.
-#....#
-..#...
-#.#..#
-####.."""
+# =============== TEST CASES ====================
+test_input_start = """.#.#.#\n...##.\n#....#\n..#...\n#.#..#\n####.."""
 
 test_input_steps = []
-
-test_input_steps.append("""..##..
-..##.#
-...##.
-......
-#.....
-#.##..""")
-
-test_input_steps.append("""..###.
-......
-..###.
-......
-.#....
-.#....""")
-
-test_input_steps.append("""...#..
-......
-...#..
-..##..
-......
-......""")
-
-test_input_steps.append("""......
-......
-..##..
-..##..
-......
-......""")
+test_input_steps.append("""..##..\n..##.#\n...##.\n......\n#.....\n#.##..""")
+test_input_steps.append("""..###.\n......\n..###.\n......\n.#....\n.#....""")
+test_input_steps.append("""...#..\n......\n...#..\n..##..\n......\n......""")
+test_input_steps.append("""......\n......\n..##..\n..##..\n......\n......""")
 
 test_lights = []
 
@@ -135,25 +91,8 @@ for test_input_step in test_input_steps:
 
     assert (calculated_lights == test_lights).all()
 
-# ================= PART 1 ======================
-
-save_light_img(lights_config, 0)
-for i in range(100):
-    lights_config = update_lights(lights_config)
-    save_light_img(lights_config, i+1)
-
-make_light_giff('original_lightshow')
-
-print('Part 1 solution:', lights_config.sum())
-
-# ================= PART 2 ======================
-
-test_input_start = """.#.#.#
-...##.
-#....#
-..#...
-#.#..#
-####.."""
+# part 2
+test_input_start = """.#.#.#\n...##.\n#....#\n..#...\n#.#..#\n####.."""
 
 test_lights = []
 
@@ -167,41 +106,11 @@ test_lights[test_lights.shape[0]-1, 0] = 1
 test_lights[test_lights.shape[0]-1, test_lights.shape[0]-1] = 1
 
 test_input_steps = []
-test_input_steps.append("""#.##.#
-####.#
-...##.
-......
-#...#.
-#.####""")
-
-test_input_steps.append("""#..#.#
-#....#
-.#.##.
-...##.
-.#..##
-##.###""")
-
-test_input_steps.append("""#...##
-####.#
-..##.#
-......
-##....
-####.#""")
-
-test_input_steps.append("""#.####
-#....#
-...#..
-.##...
-#.....
-#.#..#""")
-
-test_input_steps.append("""##.###
-.##..#
-.##...
-.##...
-#.#...
-##...#""")
-
+test_input_steps.append("""#.##.#\n####.#\n...##.\n......\n#...#.\n#.####""")
+test_input_steps.append("""#..#.#\n#....#\n.#.##.\n...##.\n.#..##\n##.###""")
+test_input_steps.append("""#...##\n####.#\n..##.#\n......\n##....\n####.#""")
+test_input_steps.append("""#.####\n#....#\n...#..\n.##...\n#.....\n#.#..#""")
+test_input_steps.append("""##.###\n.##..#\n.##...\n.##...\n#.#...\n##...#""")
 
 for test_input_step in test_input_steps:
     calculated_lights = update_lights(test_lights, broken_corners=True)
@@ -213,7 +122,7 @@ for test_input_step in test_input_steps:
 
     assert (calculated_lights == test_lights).all()
 
-
+# =============== PART 1 & 2 ====================
 puzzle_input = []
 
 with open('./2015/inputs/d18.txt') as f:
@@ -221,17 +130,24 @@ with open('./2015/inputs/d18.txt') as f:
         puzzle_input.append([1 if x =='#' else 0 for x in row.strip()])
 
 lights_config = np.array(puzzle_input)
-lights_config[0,0] = 1
-lights_config[0,lights_config.shape[0]-1] = 1
-lights_config[lights_config.shape[0]-1, 0] = 1
-lights_config[lights_config.shape[0]-1, lights_config.shape[0]-1] = 1
+broken_lights_config = np.array(puzzle_input)
 
+# fix the corners
+broken_lights_config[0,0] = 1
+broken_lights_config[0,broken_lights_config.shape[0]-1] = 1
+broken_lights_config[broken_lights_config.shape[0]-1, 0] = 1
+broken_lights_config[broken_lights_config.shape[0]-1, broken_lights_config.shape[0]-1] = 1
 
-save_light_img(lights_config, 0)
+save_light_img(lights_config, 0, 'orig')
+save_light_img(broken_lights_config, 0, 'broken')
 for i in range(100):
-    lights_config = update_lights(lights_config, broken_corners=True)
-    save_light_img(lights_config, i+1)
+    lights_config = update_lights(lights_config)
+    broken_lights_config = update_lights(broken_lights_config, broken_corners=True)
+    save_light_img(lights_config, i+1, 'orig')
+    save_light_img(broken_lights_config, i+1, 'broken')
 
-make_light_giff('broken_lightshow')
+make_light_giff('original_lightshow', 'orig')
+make_light_giff('broken_lightshow', 'broken')
 
-print('Part 2 solution:', lights_config.sum())
+print('Part 1 solution:', lights_config.sum())
+print('Part 2 solution:', broken_lights_config.sum())

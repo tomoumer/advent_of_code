@@ -5,6 +5,7 @@ from itertools import combinations
 from copy import deepcopy
 import time
 
+# =========== CLASSES AND FUNCTIONS =============
 class Ingredient():
 
     def __init__(self, name, values, tsp):
@@ -21,59 +22,50 @@ def assemble_ingredients(ingredients_list):
     ingredient_mix = []
     for ingredient in ingredients_list:
         name = re.search('^\w+', ingredient).group(0)
-        values = [int(x) for x in re.findall('-?\d', ingredient)]
+        values = list(map(int, re.findall('-?\d', ingredient)))
         ingredient_mix.append(Ingredient(name, values, even_tsp))
 
     return ingredient_mix
 
-def calculate_score(ingredient_mix):
+def calculate_score_and_calories(ingredient_mix):
     total_score = np.zeros(4)
+    cals = 0
     for ingredient in ingredient_mix:
         total_score += ingredient.tsp * ingredient.values
+        cals += ingredient.calories * ingredient.tsp
 
     total_score = np.prod(total_score)
-    return max(0, total_score)
+    
+    return max(0, total_score), cals
 
 
 # essentially, optimizing values by changing 2 ingredients at a time
 def find_best_score(ingredient_mix):
-    current_score = calculate_score(ingredient_mix)
+    current_score, _ = calculate_score_and_calories(ingredient_mix)
     best_score = current_score
 
     # needed to add this to reiterate multiple times over
-    # just because 1 and 2 got optimized, doesnt mean that will still hold
+    # just because 1 and 2 got optimized, doesnt mean that will still be the same
     # once 3 and 4 are optimized too
     for i in range(100):
         # try two at a time
         for ingredient1, ingredient2 in combinations(ingredient_mix, 2):
             
-            # increasing ingredient 1
-            while True:
-                ingredient1.tsp += 1
-                ingredient2.tsp -= 1
-                new_score = calculate_score(ingredient_mix)
+            # simplified, this way it will first increase one and decrease the other
+            # and vice-vers
+            for direction in [+1, -1]: 
+                while True:
+                    ingredient1.tsp += direction
+                    ingredient2.tsp -= direction
+                    new_score, _ = calculate_score_and_calories(ingredient_mix)
 
-                # update and keep going
-                if new_score > current_score:
-                    current_score = new_score
-                else: # reset the changes
-                    ingredient1.tsp -= 1
-                    ingredient2.tsp += 1                
-                    break
-            
-            # increasing ingredient 2
-            while True:
-                ingredient1.tsp -= 1
-                ingredient2.tsp += 1
-                new_score = calculate_score(ingredient_mix)
-
-                # update and keep going
-                if new_score > current_score:
-                    current_score = new_score
-                else: # reset the changes
-                    ingredient1.tsp += 1
-                    ingredient2.tsp -= 1                
-                    break
+                    # update and keep going
+                    if new_score > current_score:
+                        current_score = new_score
+                    else: # reset the changes
+                        ingredient1.tsp -= direction
+                        ingredient2.tsp += direction        
+                        break
 
         #
         if best_score == current_score:
@@ -83,22 +75,16 @@ def find_best_score(ingredient_mix):
 
     return current_score
 
-
-# for efficiency this could be done in calculate_score instead
-def get_calories(ingredient_mix):
-    cals = 0
-    for ingredient in ingredient_mix:
-        cals += ingredient.calories * ingredient.tsp
-    return cals
-
-
-# I need to try all the options
+# I need to try all the options - part 2
 def optimize_calories(ingredient_mix):
     global possible_optimizations
     global checked_scores
+
     for ingredient1, ingredient2 in combinations(ingredient_mix, 2):
         tmp_ingr1 = ingredient1.tsp
         tmp_ingr2 = ingredient2.tsp
+
+        # note I'm going from the max score already and want to reduce calories
         if ingredient1.calories < ingredient2.calories:
             ingredient1.tsp += 1
             ingredient2.tsp -= 1
@@ -106,8 +92,7 @@ def optimize_calories(ingredient_mix):
             ingredient1.tsp -= 1
             ingredient2.tsp += 1
 
-        current_score = calculate_score(ingredient_mix)
-        current_calories = get_calories(ingredient_mix) 
+        current_score, current_calories = calculate_score_and_calories(ingredient_mix)
 
         # to not repeat calculations with recursion ...
         if [current_score, current_calories] in checked_scores:
@@ -131,51 +116,42 @@ def optimize_calories(ingredient_mix):
         ingredient1.tsp = tmp_ingr1
         ingredient2.tsp = tmp_ingr2
 
-    
-
 # for fun, not needed
 def print_recipe(ingredient_mix):
+    print('')
     print('==== recipe - DONT TRY THIS AT HOME ====')
     for ingredient in ingredient_mix:
         print(ingredient.name, ':', ingredient.tsp, 'tsp')
-    print('total calories', get_calories(ingredient_mix))
+    print('total calories', calculate_score_and_calories(ingredient_mix)[1])
     print('')
 
-
-# # load in the actual puzzle input
-puzzle_input = []
-
-with open('./2015/inputs/d15.txt') as f:
-    for j, row in enumerate(f):
-        puzzle_input.append(row)
-
-print('input rows', len(puzzle_input))
-
+# =============== TEST CASES ====================
 test_input = [
     'Butterscotch: capacity -1, durability -2, flavor 6, texture 3, calories 8',
     'Cinnamon: capacity 2, durability 3, flavor -2, texture -1, calories 3']
 
-
-# ================= PART 1 ======================
-
 ingredient_mix = assemble_ingredients(test_input)
 best_score = find_best_score(ingredient_mix)
-print_recipe(ingredient_mix)
 assert best_score == 62842880
 
-
-# # part 2 test
 possible_optimizations = []
 checked_scores = []
 optimize_calories(deepcopy(ingredient_mix))
 for possibility in possible_optimizations:
-    assert calculate_score(possibility) == 57600000
+    assert calculate_score_and_calories(possibility)[0] == 57600000
 
 
-ingredient_mix = assemble_ingredients(puzzle_input)
+# ================= PART 1 ======================
+ingredients_list = []
+
+with open('./2015/inputs/d15.txt') as f:
+    for row in f:
+        ingredients_list.append(row)
+
+ingredient_mix = assemble_ingredients(ingredients_list)
 best_score = find_best_score(ingredient_mix)
-print_recipe(ingredient_mix)
 
+# print_recipe(ingredient_mix)
 print('Part 1 solution:', int(best_score))
 
 # ================= PART 2 ======================
@@ -183,15 +159,14 @@ print('Part 1 solution:', int(best_score))
 possible_optimizations = []
 checked_scores = []
 optimize_calories(deepcopy(ingredient_mix))
+
 calory_conscious = 0
 bestest_calory_conscious_cookie = ''
 for possibility in possible_optimizations:
-    # print(get_calories(possibility), calculate_score(possibility))
-    if calory_conscious < calculate_score(possibility):
-        calory_conscious = calculate_score(possibility)
+    if calory_conscious < calculate_score_and_calories(possibility)[0]:
+        calory_conscious = calculate_score_and_calories(possibility)[0]
         bestest_calory_conscious_cookie = possibility
     
-print_recipe(bestest_calory_conscious_cookie)
-
+# print_recipe(bestest_calory_conscious_cookie)
 
 print('Part 2 solution:', int(calory_conscious))

@@ -1,8 +1,10 @@
 # Day 13 of 2015
 import re
 from itertools import permutations
+import matplotlib.pyplot as plt
+import numpy as np
 
-
+# =========== CLASSES AND FUNCTIONS =============
 def map_relationships(tmp_rel):
     relationships = dict()
     for rel in tmp_rel:
@@ -45,9 +47,7 @@ def rearrange_sitting(relationships):
 
     return best_seating, max_enjoyment
 
-
-# ================= PART 1 ======================
-
+# =============== TEST CASES ====================
 test_relationships = [
 'Alice would gain 54 happiness units by sitting next to Bob.',
 'Alice would lose 79 happiness units by sitting next to Carol.',
@@ -63,24 +63,18 @@ test_relationships = [
 'David would gain 41 happiness units by sitting next to Carol.'
 ]
 
-
 relationships = map_relationships(test_relationships)
 best_seating, max_enjoyment = rearrange_sitting(relationships)
-
-# this won't work just because they can be parsed in different order
-# assert ['David', 'Alice', 'Bob', 'Carrol'] == best_seating
 assert 330 == max_enjoyment
 
-# # load in the actual puzzle input
-puzzle_input = []
+# ================= PART 1 ======================
+all_relationships = []
 
 with open('./2015/inputs/d13.txt') as f:
-    for j, row in enumerate(f):
-        puzzle_input.append(row)
+    for row in f:
+        all_relationships.append(row.strip())
 
-print('input rows', len(puzzle_input))
-
-relationships = map_relationships(puzzle_input)
+relationships = map_relationships(all_relationships)
 best_seating, max_enjoyment = rearrange_sitting(relationships)
 
 
@@ -88,14 +82,38 @@ print('Part 1 solution:', max_enjoyment)
 
 # ================= PART 2 ======================
 
-rest_of_family = relationships.keys()
-
 # add others to mysaelf and myself to others
+rest_of_family = relationships.keys()
 relationships['myself'] = {x:0 for x in relationships.keys()}
 for family_member in rest_of_family:
     relationships[family_member]['myself'] = 0
 
 best_seating, max_enjoyment = rearrange_sitting(relationships)
 
-print('finally seated...', best_seating)
+# print('finally seated...', best_seating)
 print('Part 2 solution:', max_enjoyment)
+
+# drawing for fun ...
+n = len(best_seating)
+fig, ax = plt.subplots(figsize=(6, 6))
+
+circle = plt.Circle((0, 0), 0.7, facecolor='sandybrown', fill=True, edgecolor='saddlebrown', hatch='/', linestyle='-', linewidth=3)
+ax.add_patch(circle)
+
+angles = np.linspace(0, 2 * np.pi, n, endpoint=False)
+
+for i, angle in enumerate(angles):
+    x = np.cos(angle)
+    y = np.sin(angle)
+    ax.text(x, y, best_seating[i], fontsize=12, ha='center', va='center', 
+            bbox=dict(facecolor='sandybrown', edgecolor='saddlebrown', boxstyle='round,pad=0.3'))
+
+ax.text(0,0, 'ARE YOU NOT\n ENTERTAINED?', fontsize=12, ha='center', va='center',
+        bbox=dict(facecolor='sandybrown', edgecolor='saddlebrown', boxstyle='round,pad=0.3'))
+
+ax.set_xlim(-1.2, 1.2)
+ax.set_ylim(-1.2, 1.2)
+ax.set_aspect('equal')
+ax.axis('off')
+plt.savefig(f'./2015/img/best_sitting_d13.png', bbox_inches='tight', pad_inches=0)
+plt.close()
