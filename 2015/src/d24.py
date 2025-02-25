@@ -2,13 +2,12 @@
 from itertools import combinations
 import numpy as np
 
-
+# =========== CLASSES AND FUNCTIONS =============
 def find_group(pkgs, group_weight):
     found_combo = False
 
     for i in range(1, len(pkgs)):
         for combo in combinations(pkgs, i):
-            # print(combo, sum(combo))
             if sum(combo) == group_weight:
                 found_combo = True
                 break
@@ -50,32 +49,30 @@ def make_four_groups(pkgs, group_weight):
 
     return qe
 
-
-# # load in the actual puzzle input
-packages = []
-
-with open('./2015/inputs/d24.txt') as f:
-    for j, row in enumerate(f):
-        packages.append(int(row.strip()))
-
-print('input rows', j+1)
-group_weight = sum(packages) / 3
-
-# ================= PART 1 ======================
-
+# =============== TEST CASES ====================
 test_pkgs = list(range(1,6)) + list(range(7,12))
 # needs to be even
 test_group_weight = sum(test_pkgs) / 3
 assert make_three_groups(test_pkgs, test_group_weight) == 99
 
+# part 2
+test_group_weight = sum(test_pkgs) / 4
+assert make_four_groups(test_pkgs, test_group_weight) == 44
+
+
+# ================= PART 1 ======================
+packages = []
+
+with open('./2015/inputs/d24.txt') as f:
+    for row in f:
+        packages.append(int(row.strip()))
+
+group_weight = sum(packages) / 3
 qe = make_three_groups(packages, group_weight)
 
 print('Part 1 solution:', qe)
 
 # ================= PART 2 ======================
-
-test_group_weight = sum(test_pkgs) / 4
-assert make_four_groups(test_pkgs, test_group_weight) == 44
 
 group_weight = sum(packages) / 4
 qe = make_four_groups(packages, group_weight)

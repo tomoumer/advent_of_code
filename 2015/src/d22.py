@@ -1,9 +1,12 @@
 # Day 22 of 2015
 from copy import deepcopy
 
+
 # YER A WIZARD HARRY
 # smh Wizards are for scrubs, Necromancers FTW.
-
+# also note if I get back to this, I should get rid of player and boss class
+# instead, have a cached gamestate to track the ones that have happened already...
+# =========== CLASSES AND FUNCTIONS =============
 class Character():
 
     def __init__(self, type, hp, damage, armor=0, mp=0):
@@ -12,7 +15,6 @@ class Character():
         self.damage = int(damage)
         self.armor = int(armor)
         self.mp = int(mp)
-
 
 class Spell():
 
@@ -25,8 +27,6 @@ class Spell():
         self.mana_regen = mana_regen
         self.duration = duration
 
-
-
 def process_turn(player, boss, effects=dict(), total_mana_used=0, turn='player', hardmode=False):
     global spell_list
     global least_mana_used
@@ -34,9 +34,7 @@ def process_turn(player, boss, effects=dict(), total_mana_used=0, turn='player',
     if hardmode & (turn == 'player'):
         player.hp -= 1
         if player.hp <= 0:
-            # print('boss wins')
             return
-
 
     if total_mana_used > least_mana_used:
         return
@@ -48,10 +46,9 @@ def process_turn(player, boss, effects=dict(), total_mana_used=0, turn='player',
             effect.duration -= 1
             player.hp += effect.heal
             boss.hp -= effect.damage
-            if effect.armor > 0: # this one really meessed me uppp 
+            if effect.armor > 0:    # this one really meessed me up 
                 player.armor = effect.armor
             player.mp += effect.mana_regen
-            # print(sp_name, 'left', effect.duration)
 
             if effect.duration == 0:
                 if sp_name == 'Shield':
@@ -93,7 +90,6 @@ def process_turn(player, boss, effects=dict(), total_mana_used=0, turn='player',
                 update_boss.hp -= spell.damage
                 update_player.hp += spell.heal
                 if update_boss.hp <= 0:
-                    # print('player wins!', total_mana_used + spell.manacost)
                     least_mana_used = min(least_mana_used, total_mana_used + spell.manacost)
                     return
                 process_turn(update_player, update_boss, update_effects, total_mana_used + spell.manacost, 'boss', hardmode)
@@ -106,28 +102,13 @@ def process_turn(player, boss, effects=dict(), total_mana_used=0, turn='player',
             else:
                 raise('spell not accounted for!')
 
-
-
-# # load in the actual puzzle input
-puzzle_input = []
-
-with open('./2015/inputs/d22.txt') as f:
-    for j, row in enumerate(f):
-        _, tmp_val = row.split(':')
-        puzzle_input.append(int(tmp_val.strip()))
-
-# note the values are in correct order
-boss = Character('boss', *puzzle_input)
-player = Character('player', 50, 0, 0, 500)
-
+# =============== TEST CASES ====================
 spell_list = [
     Spell('Magic Missile', 53, 4, 0, 0, 0, 0),
     Spell('Drain', 73, 2, 2, 0, 0, 0),
     Spell('Shield', 113, 0, 0, 7, 0, 6),
     Spell('Poison', 173, 3, 0, 0, 0, 6),
     Spell('Recharge', 229, 0, 0, 0, 101, 5)]
-
-# ================= PART 1 ======================
 
 test_boss = Character('boss', 13, 8, 0, 0)
 test_player = Character('player', 10, 0, 0, 250)
@@ -143,16 +124,24 @@ least_mana_used = 100000
 process_turn(deepcopy(test_player2), deepcopy(test_boss2))
 assert least_mana_used == 229 + 113 + 73 + 173 + 53
 
+# =============== PART 1 & 2 ====================
+puzzle_input = []
+
+with open('./2015/inputs/d22.txt') as f:
+    for j, row in enumerate(f):
+        _, tmp_val = row.split(':')
+        puzzle_input.append(int(tmp_val.strip()))
+
+# note the values are in correct order
+boss = Character('boss', *puzzle_input)
+player = Character('player', 50, 0, 0, 500)
+
 least_mana_used = 100000
 process_turn(deepcopy(player), deepcopy(boss))
 
-# correct 1269
 print('Part 1 solution:', least_mana_used)
-
-# ================= PART 2 ======================
 
 least_mana_used = 100000
 process_turn(deepcopy(player), deepcopy(boss), hardmode=True)
 
-# correct 1309
 print('Part 2 solution:', least_mana_used)

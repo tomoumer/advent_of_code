@@ -3,7 +3,7 @@ import re
 from itertools import combinations, product
 
 # RPG yesss, let's gooooo! Elden Ring best RPG. BEHOLD, DOG.
-
+# =========== CLASSES AND FUNCTIONS =============
 class Character():
 
     def __init__(self, type, hp, damage, armor):
@@ -88,7 +88,6 @@ class ItemShop():
 
         return equipment
 
-
 def fight(player, boss):
     player_dmg = max(1, player.damage - boss.armor)
     boss_dmg = max(1, boss.damage - player.armor)
@@ -107,23 +106,23 @@ def fight(player, boss):
     else:
         return player.type
 
-# # load in the actual puzzle input
+# =============== TEST CASES ====================
+test_player = Character('player', 8, 5, 5)
+test_boss = Character('boss', 12, 7, 2)
+
+assert fight(test_player, test_boss) == 'player'
+
+
+# ================= PART 1 ======================
 puzzle_input = []
 
 with open('./2015/inputs/d21.txt') as f:
-    for j, row in enumerate(f):
+    for row in f:
         _, tmp_val = row.split(':')
         puzzle_input.append(int(tmp_val.strip()))
 
 # note the values are in correct order
 boss = Character('boss', *puzzle_input)
-
-# ================= PART 1 ======================
-
-test_player = Character('player', 8, 5, 5)
-test_boss = Character('boss', 12, 7, 2)
-
-assert fight(test_player, test_boss) == 'player'
 
 available_items = ItemShop()
 
@@ -162,11 +161,10 @@ for item_class in all_items.split('\n\n'):
 
             available_items.add_item(Item(item_type, item_name, *item_values))
 
-available_items.show_inventory()
-
+# this is just for fun
+# available_items.show_inventory()
 
 player = Character('player', 100, 0, 0)
-
 equipment = available_items.cheapskate_equipment()
 
 for equip_choice in equipment:
@@ -177,15 +175,13 @@ for equip_choice in equipment:
     if winner == 'player':
         break
 
-    
-print('Cheapest equipment that wins', equip_choice[0])
+# print('Cheapest equipment that wins', equip_choice[0])
 print('Part 1 solution:', equip_choice[1])
 
 # ================= PART 2 ======================
 
 # just reverse the order and start from the most expensive
 equipment = sorted(equipment, key=lambda x: x[1], reverse=True)
-
 
 for equip_choice in equipment:
     player.equip(equip_choice)
@@ -196,9 +192,7 @@ for equip_choice in equipment:
     if winner == 'boss':
         break
 
-
-# 282 too high
-print('Most expensive equipment that loses', equip_choice[0])
+# print('Most expensive equipment that loses', equip_choice[0])
 print('Part 2 solution:', equip_choice[1])
 
 

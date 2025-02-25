@@ -1,6 +1,7 @@
 # Day 23 of 2015
 import re
 
+# =========== CLASSES AND FUNCTIONS =============
 def process_instruction(row, registers):
     # print(row)
     jmp_amount = 1
@@ -25,6 +26,7 @@ def process_instruction(row, registers):
     return jmp_amount
 
 
+# ================= PART 1 ======================
 registers = {'a': 0,
              'b': 0}
 
@@ -33,12 +35,7 @@ puzzle_input = dict()
 with open('./2015/inputs/d23.txt') as f:
     for j, row in enumerate(f):
         puzzle_input[j] = row.strip()
-        # process_instruction(row.strip(), registers)
-
-print('input rows', j+1)
-
-# ================= PART 1 ======================
-
+        
 instruction = 0
 while instruction < len(puzzle_input.keys()):
     instr_add = process_instruction(puzzle_input[instruction], registers)
@@ -47,7 +44,6 @@ while instruction < len(puzzle_input.keys()):
 print('Part 1 solution:', registers['b'])
 
 # ================= PART 2 ======================
-
 
 registers = {'a': 1,
              'b': 0}

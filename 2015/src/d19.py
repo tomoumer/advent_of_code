@@ -2,7 +2,7 @@
 import re
 import random
 
-
+# =========== CLASSES AND FUNCTIONS =============
 def create_new_molecules(replacements, molecule):
     possible_molecules = set()
     for orig, repl_list in replacements.items():
@@ -14,7 +14,6 @@ def create_new_molecules(replacements, molecule):
                 possible_molecules.add(new_molecule)
 
     return possible_molecules
-
 
 def deconstruct_molecule(reverse_replacements, current_molecule, final_molecule, step=0):
     global shortest_solution
@@ -43,35 +42,7 @@ def deconstruct_molecule(reverse_replacements, current_molecule, final_molecule,
             if matched:
                 return
 
-    
-
-replacements = dict()
-reverse_replacements = []
-with open('./2015/inputs/d19.txt') as f:
-    for j, row in enumerate(f):
-        puzzle_input = row.strip()
-        if puzzle_input == '':
-            pass
-        elif len(puzzle_input) > 20:
-            molecule = puzzle_input
-        else:
-            orig, rep = map(str.strip, puzzle_input.split('=>'))
-            if orig not in replacements.keys():
-                replacements[orig] = []
-
-            reverse_replacements.append([len(rep) - len(orig), rep, orig])
-            replacements[orig].append(rep)
-
-print('replacements', len(replacements))
-
-
-reverse_replacements = sorted(reverse_replacements, key=lambda x: x[0], reverse=True)
-# print(reverse_replacements)
-
-
-
-# ================= PART 1 ======================
-
+# =============== TEST CASES ====================
 test_replacements = {'H': ['HO', 'OH'],
                      'O': ['HH']}
 
@@ -81,11 +52,7 @@ test_molecule2 = 'HOHOHO'
 assert len(create_new_molecules(test_replacements, test_molecule1)) == 4
 assert len(create_new_molecules(test_replacements, test_molecule2)) == 7
 
-new_molecules = create_new_molecules(replacements, molecule)
-
-print('Part 1 solution:', len(new_molecules))
-
-# ================= PART 2 ======================
+# part 2
 
 test_reverse_replacements = [[0, 'H', 'e'],
                         [0, 'O', 'e'],
@@ -104,6 +71,34 @@ for i in range(100):
     deconstruct_molecule(test_reverse_replacements, 'HOHOHO', 'e')
 assert shortest_solution == 6
 
+
+# ================= PART 1 ======================
+
+replacements = dict()
+reverse_replacements = []
+with open('./2015/inputs/d19.txt') as f:
+    for row in f:
+        puzzle_input = row.strip()
+        if puzzle_input == '':
+            pass
+        elif len(puzzle_input) > 20:
+            molecule = puzzle_input
+        else:
+            orig, rep = map(str.strip, puzzle_input.split('=>'))
+            if orig not in replacements.keys():
+                replacements[orig] = []
+
+            reverse_replacements.append([len(rep) - len(orig), rep, orig])
+            replacements[orig].append(rep)
+
+print('replacements', len(replacements))
+
+reverse_replacements = sorted(reverse_replacements, key=lambda x: x[0], reverse=True)
+new_molecules = create_new_molecules(replacements, molecule)
+
+print('Part 1 solution:', len(new_molecules))
+
+# ================= PART 2 ======================
 
 shortest_solution = 2*len(molecule)
 for i in range(1000):
