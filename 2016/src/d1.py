@@ -4,13 +4,6 @@ import re
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# notes ... first create myself, walking
-# process turning with matrices
-# process moving
-# process instructions
-# mark visited - pt 2
-# needed to mark movement for the entire tract!
-
 # =========== CLASSES AND FUNCTIONS =============
 class WalkingMan():
 
