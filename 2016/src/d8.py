@@ -99,7 +99,7 @@ real_display.grid = np.hstack([np.zeros((real_display.grid.shape[0], 2)), real_d
 plt.figure(figsize=(6, 2))
 plt.imshow(real_display.grid, cmap='cividis', aspect='equal') 
 plt.axis('off')
-plt.title('Display')
+# plt.title('Display')
 plt.savefig(f'./2016/img/card_display_d8.png', bbox_inches='tight', pad_inches=0)
 plt.close()
 print('Part 2 solution: see figure!')
