@@ -44,8 +44,6 @@ def check_triple_quintuple(i, triplets, hex_repr, num_keys_found):
 def find_one_time_pads(salt):
     triplets_base = dict()
     triplets_adv = dict()
-    # quintuplets_base = dict()
-    # quintuplets_adv = dict()
 
     num_keys_base = 0
     num_keys_adv = 0
@@ -83,7 +81,6 @@ def find_one_time_pads(salt):
 idx_pt1, idx_pt2 = find_one_time_pads('abc')
 assert idx_pt1 == 22728
 assert idx_pt2 == 22551
-
 
 # =============== PART 1 & 2 ====================
 

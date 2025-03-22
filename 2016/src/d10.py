@@ -52,8 +52,6 @@ def allocate_bots(instructions):
 
     return bots
 
-
-
 # =============== TEST CASES ====================
 test_instructions = [
 'value 5 goes to bot 2',
@@ -64,11 +62,9 @@ test_instructions = [
 'value 2 goes to bot 2'
 ]
 
-# #.strip().split('/n') does not actually create new objects??!
 test_bots = allocate_bots(test_instructions)
 
-# I am too lazy to do all the different assert statements here ...
-# a print will suffice
+# I am too lazy to do all the different assert statements here ... a print will suffice
 # for i in range(3):
 #     print(test_bots[i].chips, test_bots[i].val_low, test_bots[i].val_high)
 

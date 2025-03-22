@@ -92,8 +92,7 @@ for room in actual_rooms:
 
 print('Part 2 solution:', decrypt_value)
 
-# fun stuff!
-# note stopwords are not needed, but in general can be
+# fun stuff! note stopwords are not needed here
 stopwords = set(STOPWORDS)
 all_room_words = " ".join(unencoded_rooms)
 

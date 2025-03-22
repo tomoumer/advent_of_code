@@ -21,12 +21,10 @@ class PowerDisplayTech:
         elif 'row' in instruction:
             self.rotate_row(num1, num2)
         else:
-            raise('unknown instruction')
-            
+            raise('unknown instruction')          
 
     def turn_on(self, x, y):
         self.grid[:y,:x] = 1
-        # print(self.grid)
 
     def rotate_row(self, y, num):
         temp_row = self.grid[y,:].copy()
@@ -37,7 +35,6 @@ class PowerDisplayTech:
         new_row[ones_index] = 1
 
         self.grid[y,:] = new_row
-        # print(self.grid)
 
     def rotate_col(self, x, num):
         temp_col = self.grid[:,x].copy()
@@ -53,13 +50,11 @@ class PowerDisplayTech:
 # =============== TEST CASES ====================
 test_display = PowerDisplayTech(3,7)
 
-
 test_instructions = {'rect 3x2': '###....\n###....\n.......',
                      'rotate column x=1 by 1': '#.#....\n###....\n.#.....',
                      'rotate row y=0 by 4': '....#.#\n###....\n.#.....',
                      'rotate column x=1 by 1  ': '.#..#.#\n#.#....\n.#.....'}
 # note had to add a few spaces to last instruction to make it a different key ...
-
 
 for test_instruction, test_result in test_instructions.items():
     # this whole block here is to split into rows and then
@@ -78,28 +73,22 @@ for test_instruction, test_result in test_instructions.items():
 # ================= PART 1 ======================
 real_display = PowerDisplayTech(6,50)
 
-
 with open('./2016/inputs/d8.txt') as f:
     for row in f:
         real_display.process_instruction(row.strip())
 
-
-
 print('Part 1 solution:', int(np.sum(real_display.grid)))
 
-
+# ================= PART 2 ======================
 # this isn't really the display, but I'm padding it to look nicer
 real_display.grid = np.vstack([real_display.grid, np.zeros((2, real_display.grid.shape[1]))])
 real_display.grid = np.vstack([np.zeros((2,real_display.grid.shape[1])), real_display.grid])
 real_display.grid = np.hstack([real_display.grid, np.zeros((real_display.grid.shape[0], 2))])
 real_display.grid = np.hstack([np.zeros((real_display.grid.shape[0], 2)), real_display.grid])
 
-
-# ================= PART 2 ======================
 plt.figure(figsize=(6, 2))
 plt.imshow(real_display.grid, cmap='cividis', aspect='equal') 
 plt.axis('off')
-# plt.title('Display')
 plt.savefig(f'./2016/img/card_display_d8.png', bbox_inches='tight', pad_inches=0)
 plt.close()
 print('Part 2 solution: see figure!')

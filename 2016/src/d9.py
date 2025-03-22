@@ -83,7 +83,7 @@ for test_string, test_len in test_strings2.items():
     assert decompress(test_string, test_marker, test_marker_effect)[1] == test_len
 
 
-# ================= PART 1 ======================
+# =============== PART 1 & 2 ====================
 
 with open('./2016/inputs/d9.txt') as f:
     for row in f:
@@ -93,9 +93,5 @@ with open('./2016/inputs/d9.txt') as f:
 marker, all_marker_effect = find_matches(mystery_string)
 final_len, final_len_2 = decompress(mystery_string, marker, all_marker_effect)
 
-# # too low 20804
 print('Part 1 solution:', final_len)
-
-# ================= PART 2 ======================
-
 print('Part 2 solution:', final_len_2)

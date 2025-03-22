@@ -66,7 +66,6 @@ with open('./2016/inputs/d22.txt') as f:
 
 num_viable = find_viable_pairs(storage_grid, max_x, max_y)
 
-# 952
 print('Part 1 solution:', num_viable)
 
 # # ================= PART 2 ======================
@@ -85,7 +84,6 @@ for y_a in range(max_y + 1):
         elif (x_a == max_x) and (y_a == 0):
             storage_grid_img = storage_grid_img + 'G '
         else:
-            # print(f"{storage_grid[(x_a),(y_a)]['used']}/{storage_grid[(x_a),(y_a)]['avail']}", end=' ')
             storage_grid_img = storage_grid_img + '. '
 
     storage_grid_img = storage_grid_img + '\n'

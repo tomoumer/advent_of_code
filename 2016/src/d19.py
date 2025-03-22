@@ -37,8 +37,6 @@ def elves_circular_elephant(num_elves):
 
     return elves[0]
 
-
-
 # =============== TEST CASES ====================
 assert elves_white_elephant(5) == 3
 assert elves_circular_elephant(5) == 2

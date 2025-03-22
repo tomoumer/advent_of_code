@@ -40,7 +40,6 @@ def execute_asembunny(assembunny, registers):
 
             case 'out':
                 num_out += 1
-                # print(num_out, tmp_res_1)
 
                 if (num_out % 2 == 1) and (tmp_res_1 != 0):
                     return 0
@@ -52,8 +51,7 @@ def execute_asembunny(assembunny, registers):
                     return 1
                 
                 process_line += 1
-
-                    
+              
             case _:
                 raise ValueError('Unknown assembunny command!')
 
@@ -68,7 +66,6 @@ for i in range(100000):
 
     registers = {'a': i}
     returns = execute_asembunny(assembunny, registers)
-    # print(registers)
     if returns == 1:
         break
 

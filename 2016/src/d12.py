@@ -1,13 +1,11 @@
 # Day 12 of 2016
 
-
 # =========== CLASSES AND FUNCTIONS =============
 def execute_asembunny(assembunny, registers):
     process_line = 0
 
     while process_line < len(assembunny):
 
-        # print(process_line, len(assembunny))
         results = assembunny[process_line].split(' ')
 
         match results[0]:
@@ -37,8 +35,6 @@ def execute_asembunny(assembunny, registers):
             case _:
                 raise ValueError('Unknown assembunny command!')
         
-
-
 # =============== TEST CASES ====================
 test_assembunny = ['cpy 41 a',
 'inc a',
@@ -66,7 +62,6 @@ registers = {'a': 0,
              'd': 0}
 
 execute_asembunny(assembunny, registers)
-
 print('Part 1 solution:', registers['a'])
 
 # ================= PART 2 ======================
@@ -77,5 +72,4 @@ registers = {'a': 0,
              'd': 0}
 
 execute_asembunny(assembunny, registers)
-
 print('Part 2 solution:', registers['a'])

@@ -17,9 +17,6 @@ def check_if_valid(s1, s2, s3):
 
     return is_valid
 
-# =============== TEST CASES ====================
-
-
 # ================= PART 1 ======================
 triangles = []
 

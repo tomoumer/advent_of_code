@@ -66,7 +66,6 @@ def journey_through_office(start_x, start_y, end_x, end_y, office_layout):
     
     return fastest_path, checked_rooms
 
-    
 
 # =============== TEST CASES ====================
 test_design_map = """.#.####.##

@@ -5,7 +5,6 @@ from collections import deque
 
 # =========== CLASSES AND FUNCTIONS =============
 def get_open_doors(string, x, y):
-    # print(string, x, y)
 
     encoded_string = string.encode('utf-8')
     md5_hash = hashlib.md5(encoded_string)
@@ -79,7 +78,6 @@ x = 0
 y = 0
 
 assert move_and_groove('ihgpwlah', x, y) == ('DDRRRD', 370)
-# print(move_and_groove('kglvqrro', x, y))
 assert move_and_groove('kglvqrro', x, y) == ('DDUDRLRRUDRD', 492)
 assert move_and_groove('ulqzkmiv', x, y) == ('DRURDRUDDLLDLUURRDULRLDUUDDDRR', 830)
 

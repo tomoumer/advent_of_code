@@ -61,7 +61,7 @@ assert test_ecm_max == 'easter'
 assert test_ecm_min == 'advent'
 
 
-# ================= PART 1 ======================
+# =============== PART 1 & 2 ====================
 messages = []
 
 with open('./2016/inputs/d6.txt') as f:
@@ -72,7 +72,4 @@ formatted_messages = format_messages(messages)
 ecm_max, ecm_min = extract_ecm(formatted_messages)
 
 print('Part 1 solution:', ecm_max)
-
-# ================= PART 2 ======================
-
 print('Part 2 solution:', ecm_min)

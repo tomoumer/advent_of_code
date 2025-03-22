@@ -1,7 +1,6 @@
 # Day 7 of 2016
 import re
 
-
 # =========== CLASSES AND FUNCTIONS =============
 def check_abba(ip_string_list):
     abba = False
@@ -66,7 +65,6 @@ def support_status(full_ip):
     support_ababab = check_ababab(outside_bracket_ip, bracket_ip)
 
     return support_abba, support_ababab
-
 
 # =============== TEST CASES ====================
 test_ips = {'abba[mnop]qrst': True,

@@ -2,7 +2,6 @@
 import re
 from copy import deepcopy
 from collections import deque
-import random
 from itertools import combinations, product
 
 # =========== CLASSES AND FUNCTIONS =============
@@ -184,9 +183,7 @@ print('Part 1 solution:', nr_moves_pt1)
 
 # ================= PART 2 ======================
 
-
 configuration[1].extend([('elerium', 'generator'), ('elerium', 'microchip'), ('dilithium', 'generator'), ('dilithium', 'microchip')])
-
 
 nr_moves_pt2 = move_components_around(elevator_level=1, configuration=configuration)
 

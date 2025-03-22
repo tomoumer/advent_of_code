@@ -40,7 +40,7 @@ test_pwd1, test_pwd2 = find_password('abc')
 assert test_pwd1 == '18f47a30'
 assert test_pwd2 == '05ace8e3'
 
-# ================= PART 1 ======================
+# =============== PART 1 & 2 ====================
 
 with open('./2016/inputs/d5.txt') as f:
     for row in f:
@@ -49,7 +49,4 @@ with open('./2016/inputs/d5.txt') as f:
 first_password, second_password = find_password(door_id)
 
 print('Part 1 solution:', first_password)
-
-# ================= PART 2 ======================
-
 print('Part 2 solution:', second_password)

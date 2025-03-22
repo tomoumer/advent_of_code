@@ -7,7 +7,6 @@ def execute_asembunny(assembunny, registers):
 
     while process_line < len(assembunny):
 
-        # print(process_line, len(assembunny))
         results = assembunny[process_line].split(' ')
 
         # depending if it's a letter or number
@@ -84,8 +83,6 @@ test_assembunny = ['cpy 2 a',
 
 test_registers = dict()
 
-# test_registers = {'a': 0}
-
 execute_asembunny(test_assembunny, test_registers)
 assert test_registers['a'] == 3
 
@@ -110,5 +107,4 @@ with open('./2016/inputs/d23.txt') as f:
 registers = {'a': 12}
 execute_asembunny(assembunny, registers)
 
-# 479008074
 print('Part 2 solution:', registers['a'])

@@ -3,7 +3,6 @@
 # =========== CLASSES AND FUNCTIONS =============
 def find_available_ip(blocked_ip):
 
-    # possible_ip = set(range(max_ip + 1))
     max_int = 4294967295
     min_ip = 0
     first_min_ip = -1
@@ -40,13 +39,8 @@ for ip in test_ip_ranges:
     ip_start, ip_end = map(int, ip.split('-'))
     test_blocked_ip.append([ip_start, ip_end])
 
-
-
-
 min_ip, num_available = find_available_ip(test_blocked_ip)
 assert min_ip == 3
-
-
 
 # =============== PART 1 & 2 ====================
 blocked_ip = []
@@ -60,5 +54,4 @@ with open('./2016/inputs/d20.txt') as f:
 min_ip, num_available = find_available_ip(blocked_ip)
 
 print('Part 1 solution:', min_ip)
-# 150
 print('Part 2 solution:', num_available)

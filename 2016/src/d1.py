@@ -30,8 +30,7 @@ class WalkingMan():
         else:
             raise('unknown rotation!')
         
-        self.orientation = np.matmul(self.orientation, rotation_matrix)        
-        #  self.position += walk * self.orientation
+        self.orientation = np.matmul(self.orientation, rotation_matrix)
 
         # update the grid as we walk
         for i in range(walk):
@@ -41,7 +40,6 @@ class WalkingMan():
             if (self.map[self.position[0]][self.position[1]] > 1) and (self.positionhq.size == 0):
                 self.positionhq = self.position.copy()
 
-        
     def back_to_beginning(self, orientation=[0,1], position=[0,0]):
         self.orientation = np.array(orientation)
         self.position = np.array(position)
@@ -100,6 +98,5 @@ plt.axis('off')
 plt.xlim(xmin,xmax)
 plt.ylim(ymin, ymax)
 plt.title(f'City Walking')
-# plt.show()
 plt.savefig(f'./2016/img/city_walk_d1.png', bbox_inches='tight', pad_inches=0)
 plt.close()

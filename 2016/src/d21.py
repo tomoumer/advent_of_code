@@ -88,7 +88,6 @@ def process_operation(operation_str, password, scramble=True):
 
     return password
 
-
 # =============== TEST CASES ====================
 test_pwd = 'abcde'
 
@@ -105,8 +104,6 @@ for operation, test_value in test_instructions.items():
 
     test_pwd = process_operation(operation,test_pwd)
     assert test_pwd == test_value
-
-
 
 # ================= PART 1 ======================
 
