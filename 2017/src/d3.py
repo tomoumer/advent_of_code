@@ -86,7 +86,7 @@ def memory_unpack(square_nr):
         else:
             memory_grid[current_y, current_x] = -1
 
-    return abs(current_x - memory_grid.shape[0] // 2) + abs(current_y - memory_grid.shape[1] // 2), first_larger
+    return abs(current_x - memory_grid.shape[0] // 2) + abs(current_y - memory_grid.shape[1] // 2), first_larger, memory_grid
 
 
 # =============== TEST CASES ====================
@@ -104,7 +104,21 @@ with open('./2017/inputs/d3.txt') as f:
     for row in f:
         square_nr = int(row.strip())
 
-num_steps, first_larger = memory_unpack(square_nr)
+num_steps, first_larger, memory_grid = memory_unpack(square_nr)
 
 print('Part 1 solution:', num_steps)
 print('Part 2 solution:', first_larger)
+
+positive_vals = np.where(memory_grid > 0)
+# just the part that I calculated
+memory_grid = memory_grid[min(positive_vals[0]):max(positive_vals[0]+1), min(positive_vals[1]): max(positive_vals[1])+1]
+print(memory_grid)
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.figure(figsize=(8, 8))
+sns.heatmap(np.log(memory_grid),  cmap='Oranges', square=True, cbar=False)
+plt.axis('off')
+plt.title(f'Spiraling Memory Allocation!')
+plt.savefig(f'./2017/img/spiral_memory_d3.png', bbox_inches='tight', pad_inches=0.1)
