@@ -1,4 +1,5 @@
 # Day 11 of 2017
+import matplotlib.pyplot as plt
 
 # =========== CLASSES AND FUNCTIONS =============
 # axial col q row r
@@ -67,11 +68,24 @@ with open('./2017/inputs/d11.txt') as f:
 current_coord = start_coord.copy()
 max_away = 0
 
+move_path = {'x': [], 'y': []}
+
 for move in moves.split(','):
     current_coord, max_away = haxor_move(current_coord, move, max_away)
+    move_path['x'].append(current_coord[0])
+    move_path['y'].append(current_coord[1])
 
 total_moves = measure_dist(current_coord)
 
 
 print('Part 1 solution:', int(total_moves))
 print('Part 2 solution:', int(max_away))
+
+# for fun
+plt.figure(figsize=(8, 8))
+plt.plot(move_path['x'][0], move_path['y'][0], 'bo', color='red' )
+plt.plot(move_path['x'], move_path['y'])
+plt.axis('off')
+# plt.show()
+plt.title(f'Lost Child Process!')
+plt.savefig(f'./2017/img/child_process_lost_d11.png', bbox_inches='tight', pad_inches=0.1)
