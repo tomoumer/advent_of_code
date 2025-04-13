@@ -40,7 +40,6 @@ def memory_realloc(banks):
             seen_config.append(new_config)
 
 
-
 # =============== TEST CASES ====================
 test_banks = '0 2 7 0'
 test_banks = np.array(list(map(int, test_banks.split())))
@@ -54,7 +53,6 @@ with open('./2017/inputs/d6.txt') as f:
         banks = np.array(list(map(int, row.split())))
 
 redistr_cycles, loop_size = memory_realloc(banks)
-
 
 print('Part 1 solution:', redistr_cycles)
 print('Part 2 solution:', loop_size)

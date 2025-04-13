@@ -36,8 +36,6 @@ test_spreadsheet = {
 for row, test_chk in test_spreadsheet.items():
     assert row_checksum(row)[1] == test_chk
 
-print(list(combinations('5 9 2 8'.split(), 2)))
-
 # =============== PART 1 & 2 ====================
 checksum_1 = 0
 checksum_2 = 0
@@ -47,7 +45,6 @@ with open('./2017/inputs/d2.txt') as f:
         chk1, chk2 = row_checksum(row)
         checksum_1 += chk1
         checksum_2 += chk2
-
 
 print('Part 1 solution:', checksum_1)
 print('Part 2 solution:', checksum_2)

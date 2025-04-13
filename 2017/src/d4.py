@@ -12,7 +12,6 @@ def check_valid_pass(pass_candidate):
     else:
         part_1 = True
 
-    
     pass_candidate = [Counter(x) for x in pass_candidate]
     part_2 = True
     while pass_candidate:
@@ -41,7 +40,6 @@ test_passes = {'abcde fghij' : True,
 for test_pass, is_valid in test_passes.items():
     assert check_valid_pass(test_pass)[1] == is_valid
 
-
 # =============== PART 1 & 2 ====================
 num_valid_1 = 0
 num_valid_2 = 0
@@ -51,7 +49,6 @@ with open('./2017/inputs/d4.txt') as f:
         valid1, valid2 = check_valid_pass(row)
         num_valid_1 += valid1
         num_valid_2 += valid2
-
 
 print('Part 1 solution:', num_valid_1)
 print('Part 2 solution:', num_valid_2)

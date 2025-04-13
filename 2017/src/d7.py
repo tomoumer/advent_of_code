@@ -1,5 +1,7 @@
 # Day 7 of 2017
 from collections import deque
+import networkx as nx
+import matplotlib.pyplot as plt
 
 
 # =========== CLASSES AND FUNCTIONS =============
@@ -95,10 +97,10 @@ for row in test_vals:
 
 test_final_discs, test_inter_discs, test_disc_weights = initial_disk_scan(test_discs)
 
-bottom_disc, wrong_disc, wrong_weight = parse_disk_tree(test_final_discs, test_inter_discs, test_disc_weights)
-assert bottom_disc == 'tknk'
+test_bottom_disc, wrong_disc, wrong_weight = parse_disk_tree(test_final_discs, test_inter_discs, test_disc_weights)
+assert test_bottom_disc == 'tknk'
 
-_, _, test_disc_weights = initial_disk_scan(test_discs)
+test_final_discs, test_inter_discs, test_disc_weights = initial_disk_scan(test_discs)
 assert test_disc_weights[wrong_disc] + wrong_weight == 60
 
 
@@ -112,7 +114,7 @@ with open('./2017/inputs/d7.txt') as f:
 final_discs, inter_discs, disc_weights = initial_disk_scan(discs)
 bottom_disc, wrong_disc, wrong_weight = parse_disk_tree(final_discs, inter_discs, disc_weights)
 
-# once I have the adjustment to weight needed, net co get the original disc weights
+# once I have the adjustment to weight needed, net to get the original disc weights
 final_discs, inter_discs, disc_weights = initial_disk_scan(discs)
 correct_weight = disc_weights[wrong_disc] + wrong_weight
 
@@ -120,115 +122,28 @@ print('Part 1 solution:', bottom_disc)
 print('Part 2 solution:', correct_weight)
 
 
-# full disclosure ... most of the code below done with claude.ai
-# getting a graph together in plotly is not super complex (I've done it before)
-# but ... I'm tired and I didn't think the climb would be worth the view as they say!
-
-import networkx as nx
-import plotly.graph_objs as go
-
 G = nx.DiGraph()
 
-# edges
-for disc in inter_discs:
-    for parent, children in disc.items():
-        for child in children:
-            G.add_edge(parent, child)
+leveling = deque([[bottom_disc, 0]])
+G.add_node(bottom_disc, level=0)
 
-# Custom hierarchical layout function
-def custom_hierarchical_layout(G, root=bottom_disc):
-    # Initialize layout dictionary
-    pos = {}
+while leveling:
+    # print(leveling)
+    parent_disc, level = leveling.popleft()
+    level += 1
     
-    # Recursive function to assign positions
-    def _assign_pos(node, x_offset, y_level):
-        # Assign position to current node
-        pos[node] = (x_offset, -y_level)
-        
-        # Get children of the current node
-        children = list(G.successors(node))
-        
-        # If no children, return
-        if not children:
-            return
-        
-        # Calculate spacing between children
-        total_width = len(children) - 1
-        start_x = x_offset - total_width / 2
-        
-        # Recursively assign positions to children
-        for i, child in enumerate(children):
-            child_x = start_x + i
-            _assign_pos(child, child_x, y_level + 1)
-    
-    # Start assigning positions from the root
-    _assign_pos(root, 0, 0)
-    
-    return pos
+    for disc_map in inter_discs:
+        if parent_disc in disc_map.keys():
+            for child_disc in disc_map[parent_disc]:
+                G.add_node(child_disc, level=level)
+                G.add_edge(parent_disc, child_disc)
+                leveling.append([child_disc, level])
 
-pos = custom_hierarchical_layout(G)
+            break
 
-edge_x = []
-edge_y = []
-for edge in G.edges():
-    x0, y0 = pos[edge[0]]
-    x1, y1 = pos[edge[1]]
-    edge_x.extend([x0, x1, None])
-    edge_y.extend([y0, y1, None])
+pos = nx.multipartite_layout(G, subset_key="level", align="horizontal")
 
-edge_trace = go.Scatter(
-    x=edge_x, y=edge_y,
-    line=dict(width=1.5, color='#888'),
-    hoverinfo='none',
-    mode='lines')
-
-node_x = []
-node_y = []
-node_text = []
-node_color = []
-
-max_depth = max(len(nx.shortest_path(G, bottom_disc, node)) for node in G.nodes())
-
-for node in G.nodes():
-    x, y = pos[node]
-    node_x.append(x)
-    node_y.append(y)
-    node_text.append(node)
-    
-    depth = len(nx.shortest_path(G, bottom_disc, node)) - 1
-    color_intensity = depth / max_depth
-    node_color.append(color_intensity)
-
-node_trace = go.Scatter(
-    x=node_x, y=node_y,
-    mode='markers',
-    marker=dict(
-        showscale=True,
-        colorscale='Viridis',
-        color=node_color,
-        size=10,
-        colorbar=dict(
-            thickness=15,
-            title='Node Depth',
-            xanchor='left',
-            titleside='right'
-        )
-    )
-)
-
-fig = go.Figure(data=[edge_trace, node_trace],
-             layout=go.Layout(
-                title='Hierarchical Tree Structure',
-                titlefont_size=16,
-                showlegend=False,
-                hovermode='closest',
-                margin=dict(b=20,l=5,r=5,t=40),
-                annotations=[ dict(
-                    text="Hierarchical Tree Visualization",
-                    showarrow=False,
-                    xref="paper", yref="paper") ],
-                xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
-                )
-
-fig.show()
+plt.figure(figsize=(14, 8))
+nx.draw(G, pos=pos)
+# plt.show()
+plt.savefig(f'./2017/img/tree_circus_d7.png', bbox_inches='tight', pad_inches=0.1)

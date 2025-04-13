@@ -36,12 +36,9 @@ def trampoline_improved(offsets):
             
     return num_steps
 
-
 # =============== TEST CASES ====================
 test_offsets = [0, 3, 0, 1, -3]
-assert trampoline_around(test_offsets) == 5
-
-test_offsets = [0, 3, 0, 1, -3]
+assert trampoline_around(test_offsets.copy()) == 5
 assert trampoline_improved(test_offsets) == 10
 
 # =============== PART 1 & 2 ====================
@@ -51,16 +48,8 @@ with open('./2017/inputs/d5.txt') as f:
     for row in f:
         offsets.append(int(row.strip()))
 
-num_steps1 = trampoline_around(offsets)
-
-print('Part 1 solution:', num_steps1)
-
-offsets = []
-
-with open('./2017/inputs/d5.txt') as f:
-    for row in f:
-        offsets.append(int(row.strip()))
-
+num_steps1 = trampoline_around(offsets.copy())
 num_steps2 = trampoline_improved(offsets)
 
+print('Part 1 solution:', num_steps1)
 print('Part 2 solution:', num_steps2)

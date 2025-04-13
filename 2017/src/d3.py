@@ -1,5 +1,7 @@
 # Day 3 of 2017
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # =========== CLASSES AND FUNCTIONS =============
 def create_memory_grid(square_nr):
@@ -60,8 +62,6 @@ def calculate_pos_value(current_y, current_x, memory_grid):
 
     memory_grid[current_y, current_x] = tmp_val
 
-
-
 def memory_unpack(square_nr):
 
     memory_grid = create_memory_grid(square_nr)
@@ -109,13 +109,11 @@ num_steps, first_larger, memory_grid = memory_unpack(square_nr)
 print('Part 1 solution:', num_steps)
 print('Part 2 solution:', first_larger)
 
-positive_vals = np.where(memory_grid > 0)
-# just the part that I calculated
-memory_grid = memory_grid[min(positive_vals[0]):max(positive_vals[0]+1), min(positive_vals[1]): max(positive_vals[1])+1]
-print(memory_grid)
 
-import matplotlib.pyplot as plt
-import seaborn as sns
+positive_vals = np.where(memory_grid > 0)
+# just until the part 2 solution
+memory_grid = memory_grid[min(positive_vals[0]):max(positive_vals[0]+1), min(positive_vals[1]): max(positive_vals[1])+1]
+# print(memory_grid)
 
 plt.figure(figsize=(8, 8))
 sns.heatmap(np.log(memory_grid),  cmap='Oranges', square=True, cbar=False)
