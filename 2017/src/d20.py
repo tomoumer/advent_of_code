@@ -62,8 +62,6 @@ for i, particle in enumerate(test_particles):
                           })
 
 particles = pd.DataFrame(tmp_particles)
-
-
 particles = make_particles_collide(particles,5)
 
 assert len(particles) == 1
@@ -84,8 +82,6 @@ with open('./2017/inputs/d20.txt') as f:
         p_acc_total = abs(p_acc[0]) + abs(p_acc[1]) + abs(p_acc[2])
         
         if p_acc_total < min_acc:
-            # print(p_acc_x, p_acc_y, p_acc_z)
-            # print(p_acc_total)
             min_acc = p_acc_total
             min_p_num = i
 
@@ -103,7 +99,6 @@ with open('./2017/inputs/d20.txt') as f:
 
 particles = pd.DataFrame(tmp_particles)
 particles = make_particles_collide(particles, 1000)
-
 
 print('Part 1 solution:', min_p_num)
 print('Part 2 solution:', particles.shape[0])

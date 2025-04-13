@@ -2,6 +2,8 @@
 from collections import deque
 import functools
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # =========== CLASSES AND FUNCTIONS =============
 # the know algo from day 10
@@ -17,7 +19,6 @@ def knot_the_knot_the_ascii_hashing_wtf(my_list, ascii_lengths):
     lengths = lengths + ascii_suffix
 
     for i in range(64):
-        # print('loop i', i)
 
         for length in lengths:
             if length < len(my_list):
@@ -32,8 +33,6 @@ def knot_the_knot_the_ascii_hashing_wtf(my_list, ascii_lengths):
 
             total_rotation += rotate_by
             skip_size += 1
-
-        # ascii_lengths = ','.join(map(str, lengths))
 
     # rotate it back to the original position
     total_rotation = total_rotation % len(my_list)
@@ -74,7 +73,6 @@ def create_grid(hash_key):
 
     return np.array(final_grid)
 
-
 def find_regions(grid):
     ones = np.argwhere(grid == 1)
 
@@ -83,7 +81,6 @@ def find_regions(grid):
     group_nr = 0
 
     for [x, y] in ones:
-        # print(x,y)
         if [x,y] in grouped:
             continue
         
@@ -143,9 +140,6 @@ group_nr, real_grid = find_regions(real_grid)
 
 print('Part 2 solution:', group_nr)
 
-
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 plt.figure(figsize=(8, 8))
 sns.heatmap(real_grid,  cmap='viridis', square=True, cbar=False, mask=np.where(real_grid == 0, 1, 0))

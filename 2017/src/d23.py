@@ -67,7 +67,6 @@ with open('./2017/inputs/d23.txt') as f:
         instructions.append(row.strip())
 
 num_mul = assemble_away(instructions)
-
 reg_h = assemble_away(instructions, debug=False)
 
 print('Part 1 solution:', num_mul)

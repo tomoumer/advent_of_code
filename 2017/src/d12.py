@@ -41,7 +41,6 @@ def explore_pipes(program_dict):
         
     return groups
 
-
 # =============== TEST CASES ====================
 test_programs = ['0 <-> 2',
 '1 <-> 1',

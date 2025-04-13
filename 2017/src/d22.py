@@ -1,5 +1,7 @@
 # Day 22 of 2017
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # =========== CLASSES AND FUNCTIONS =============
 def numpify_grid(grid_list, pad_amount):
@@ -48,7 +50,6 @@ class Virus():
     def mutated_infect_and_move(self, grid):
         current_node = grid[self.y, self.x]
 
-        # now
         # 0 = clean
         # 1 = infected
         # 2 = weakened
@@ -60,8 +61,7 @@ class Virus():
             rotation_matrix = np.array([[0, -1], [1, 0]])
             self.direction = np.matmul(self.direction, rotation_matrix)
             # weaken
-            grid[self.y, self.x] = 2
-            
+            grid[self.y, self.x] = 2       
 
         # infected
         elif current_node == 1:
@@ -78,7 +78,6 @@ class Virus():
             grid[self.y, self.x] = 1
             self.infected += 1
             
-
         # flagged
         elif current_node == 3:
             # flip direction
@@ -88,14 +87,12 @@ class Virus():
 
         else:
             raise('unknown node!')
-        
-        
+                
         self.x += self.direction[0]
         self.y += self.direction[1]
         
 
 # =============== TEST CASES ====================
-
 start_grid = ['..#',
 '#..',
 '...']
@@ -127,7 +124,6 @@ virus_carrier = Virus(midpoint, midpoint)
 for _ in range(10000):
     virus_carrier.infect_and_move(grid)
 
-
 print('Part 1 solution:', virus_carrier.infected)
 
 grid = numpify_grid(puzzle_input, 240)
@@ -139,9 +135,6 @@ for _ in range(10000000):
 
 print('Part 2 solution:', virus_carrier.infected)
 
-
-import matplotlib.pyplot as plt
-import seaborn as sns
 plt.figure(figsize=(8, 8))
 sns.heatmap(grid,  cmap='viridis', square=True, cbar=False)
 plt.axis('off')

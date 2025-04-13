@@ -1,4 +1,7 @@
 # Day 19 of 2017
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # =========== CLASSES AND FUNCTIONS =============
 def check_next_pipe(current_x, current_y, current_dir, pipes):
@@ -47,7 +50,6 @@ def attempt_to_turn(current_x, current_y, new_dir1, new_dir2, pipes):
     if next_pipe != ' ':
         return next_x, next_y, next_dir
     
-    # print('dead end')
     return -1, -1, 'done'
 
 
@@ -62,7 +64,6 @@ def move_to_next_pipe(current_x, current_y, current_dir, pipes):
         return next_x, next_y, next_dir
 
     if current_pipe != '+':
-        # print('dead end!')
         return -1, -1, 'done'
     
     # the + case, trying to turn
@@ -79,7 +80,6 @@ def be_mario(current_x, current_y, current_dir, pipes):
     # wtf thought Mario was collecting coins; guess Odyssey depleted his finances
     letters_collected = []
     steps_taken = [(current_y, current_x)]
-    # print(pipes[current_y][current_x])
 
     while True:
         current_x, current_y, current_dir = move_to_next_pipe(current_x, current_y, current_dir, pipes)
@@ -95,8 +95,6 @@ def be_mario(current_x, current_y, current_dir, pipes):
         steps_taken.append((current_y, current_x))
 
     return letters_collected, steps_taken
-
-
 
 # =============== TEST CASES ====================
 test_pipes = [
@@ -141,16 +139,11 @@ letters_collected, steps_taken = be_mario(x_first, y_first, direction, list_pipe
 print('Part 1 solution:', ''.join(letters_collected))
 print('Part 2 solution:', len(steps_taken))
 
-# for plotting
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 draw_pipes = np.zeros((len(list_pipes), len(list_pipes[0])))
 
 for (x, y) in steps_taken:
     draw_pipes[x, y] = 1
-
 
 plt.figure(figsize=(8, 8))
 sns.heatmap(draw_pipes,  cmap='Purples', square=True, cbar=False)

@@ -29,8 +29,7 @@ def dance_dance_revolution(programs, dance_moves):
                 programs = programs.replace('t', letter2)
                 programs = list(programs)
             case _:
-                raise('unknown dance move!')
-            
+                raise('unknown dance move!')     
             
     return ''.join(programs)
 
@@ -39,7 +38,6 @@ def dance_dance_revolution(programs, dance_moves):
 programs = 'abcde'
 dance_moves = 's1,x3/4,pe/b'
 assert dance_dance_revolution(programs, dance_moves) == 'baedc'
-
 
 # =============== PART 1 & 2 ====================
 
@@ -52,18 +50,15 @@ with open('./2017/inputs/d16.txt') as f:
 programs = [start_programs]
 programs.append(dance_dance_revolution(start_programs, dance_moves))
 
-
 print('Part 1 solution:', programs[0])
 
-# programs = list(programs)
 for i in range(2,1000000):
     if i % 100000000 == 0:
         print(i)
 
-    # programs = list(programs)
     programs.append(dance_dance_revolution(programs[-1], dance_moves))
 
-    # programs = new_programs.copy()
+    # find the repetition cycle
     if programs[-1] == start_programs:
         cycle_repeats = i
         break

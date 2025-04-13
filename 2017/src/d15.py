@@ -16,7 +16,6 @@ class Generator:
         self.value = (self.value * self.factor) % 2147483647
         return self.value
 
-
 def judge_vals(gen_a, gen_b):
 
     judged_equal = 0
@@ -35,9 +34,6 @@ def judge_vals(gen_a, gen_b):
     while (first_count <= 40000000) | (gen_a_count < 5000000) | (gen_b_count < 5000000):
 
         first_count += 1
-
-        # if first_count % 10000000 == 0:
-        #     print('repetition', first_count)
 
         val_a = gen_a.generate_next()
         val_b = gen_b.generate_next()
@@ -70,13 +66,11 @@ def judge_vals(gen_a, gen_b):
 
     return [judged_equal, judged_equal_2]
 
-
 # =============== TEST CASES ====================
 A = Generator(65, 16807)
 B = Generator(8921, 48271)
 
 assert judge_vals(A, B) == [588, 309]
-
 
 # =============== PART 1 & 2 ====================
 puzzle_input = []
@@ -89,7 +83,6 @@ A.reset_generator(int(re.search('\d+', puzzle_input[0]).group()))
 B.reset_generator(int(re.search('\d+', puzzle_input[1]).group()))
 
 [judged_equal, judged_equal_2] = judge_vals(A, B)
-
 
 print('Part 1 solution:', judged_equal)
 print('Part 2 solution:', judged_equal_2)

@@ -30,8 +30,6 @@ def make_bridges(components):
                 bridge_parts.append([current_bridge + part[::-1], remaining_parts[:i] + remaining_parts[i+1:]])
 
         if final_part:
-            # print(current_bridge)
-            # print(sum(current_bridge))
             max_bridge_strength = max(max_bridge_strength, sum(current_bridge))
 
         if final_part:
@@ -41,8 +39,6 @@ def make_bridges(components):
                 max_longest_bridge_strength = sum(current_bridge)
 
     return max_bridge_strength, max_longest_bridge_strength
-
-
 
 # =============== TEST CASES ====================
 tcps = ['0/2',
@@ -57,7 +53,6 @@ tcps = ['0/2',
 test_components = []
 for tcp in tcps:
     test_components.append(list(map(int, tcp.split('/'))))
-
 
 assert make_bridges(test_components) == (31, 19)
 

@@ -41,9 +41,7 @@ def measure_dist(current_coord):
 
     return total_moves
 
-
 # =============== TEST CASES ====================
-
 test_moves = {'ne,ne,ne': 3,
              'ne,ne,sw,sw': 0,
              'ne,ne,s,s': 2,
@@ -76,7 +74,6 @@ for move in moves.split(','):
     move_path['y'].append(current_coord[1])
 
 total_moves = measure_dist(current_coord)
-
 
 print('Part 1 solution:', int(total_moves))
 print('Part 2 solution:', int(max_away))

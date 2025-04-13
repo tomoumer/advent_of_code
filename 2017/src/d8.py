@@ -71,6 +71,5 @@ max_reg = 0
 for instruction in instructions:
     registers, max_reg = process_instruction(instruction, registers, max_reg)
 
-
 print('Part 1 solution:', max(registers.values()))
 print('Part 2 solution:', max_reg)

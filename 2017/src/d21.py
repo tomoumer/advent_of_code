@@ -22,7 +22,6 @@ def process_rules(rules):
         pattern_from = numpify_pattern(pattern_from)
         pattern_to = numpify_pattern(pattern_to)
 
-
         if pattern_from.shape[0] == 2:
             two_by_two.append([pattern_from, pattern_to])
             # do the rotations and save
@@ -60,7 +59,6 @@ def match_and_process(pattern, two_by_two, three_by_three):
         transform_type = three_by_three
         s_size = 3
 
-
     new_pattern = np.array([])
     for i in range(num_blocks):
         tmp_row = np.array([])
@@ -83,11 +81,9 @@ def match_and_process(pattern, two_by_two, three_by_three):
 
 
 # =============== TEST CASES ====================
-
 start_pattern = '.#./..#/###'
 
 pattern = numpify_pattern(start_pattern)
-
 
 test_rules = [
     '../.# => ##./#../...',
@@ -116,12 +112,10 @@ start_pattern = '.#./..#/###'
 pattern = numpify_pattern(start_pattern)
 two_by_two, three_by_three = process_rules(rules)
 
-
 for i in range(18):
     pattern = match_and_process(pattern, two_by_two, three_by_three)
     if i == 4:
         part_1 = np.sum(pattern)
-
 
 print('Part 1 solution:', part_1)
 print('Part 2 solution:', np.sum(pattern))

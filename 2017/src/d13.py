@@ -4,7 +4,6 @@
 def pass_through_security(firewalls_dict):
     # for first part ... each firewall be in the top position
     # again after (n-1) * 2 picoseconds, where n = range
-
     severity = 0
     
     # part 1
@@ -33,11 +32,8 @@ def pass_through_security(firewalls_dict):
                     break
         
         if not caught:
-            print('yay')
 
-            return [severity, delay]
-
-
+            return severity, delay
 
 # =============== TEST CASES ====================
 test_firewalls = ['0: 3',
@@ -51,7 +47,7 @@ for firewall in test_firewalls:
     f_depth, f_range = map(int, firewall.split(':'))
     test_firewalls_dict[f_depth] = f_range
 
-assert pass_through_security(test_firewalls_dict) == [24, 10]
+assert pass_through_security(test_firewalls_dict) == (24, 10)
 
 # =============== PART 1 & 2 ====================
 
@@ -62,8 +58,7 @@ with open('./2017/inputs/d13.txt') as f:
         f_depth, f_range = map(int, row.split(':'))
         firewalls_dict[f_depth] = f_range
 
-[severity, delay] = pass_through_security(firewalls_dict)
+severity, delay = pass_through_security(firewalls_dict)
 
 print('Part 1 solution:', severity)
 print('Part 2 solution:', delay)
-

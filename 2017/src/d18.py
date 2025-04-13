@@ -19,7 +19,6 @@ class Program():
     def assembling(self, instructions, other_program):
 
         while True:
-            # print(self.programID, self.instruction_in)
             # program got out of bounds and is therefore finished
             if (self.instruction_in < 0) | (self.instruction_in > len(instructions) - 1):
                 self.status = 'done'
@@ -89,7 +88,6 @@ def get_or_create_register(val, registers):
         reg_val = 0
 
     return reg_val
-
 
 def assemble_away(instructions):
     registers = dict()
@@ -170,10 +168,8 @@ program_one = Program(1, 0, {k:1 if k=='p' else 0 for k in registers.keys()})
 while (program_zero.status == 'ready') | (program_one.status == 'ready'):
 
     if program_zero.status == 'ready':
-        # print('first program running')
         program_zero.assembling(instructions, program_one)
     elif program_one.status == 'ready':
-        # print('second program running')
         program_one.assembling(instructions, program_zero)
 
     if (program_zero.status == 'waiting') & (len(program_zero.received) > 0):

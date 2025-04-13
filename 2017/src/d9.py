@@ -14,7 +14,6 @@ def swim_the_stream(char_stream):
         char = char_stream[i]
 
         # this one canceles next regardless if it's in a group or garbage
-        # basically, skip next char whatever it is, it also doesn't count for garbage
         if char == '!':
             i += 2
             continue
@@ -41,8 +40,6 @@ def swim_the_stream(char_stream):
         i += 1
 
     return total_score, cleaned_garbage
-
-
 
 # =============== TEST CASES ====================
 test_streams = {'{}': 1,

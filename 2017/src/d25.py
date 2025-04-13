@@ -42,7 +42,6 @@ def build_instructions(blueprints):
 
     return start_state, diag_check, states
         
-
 def run_diagnostics(current_state, diag_check, states):
 
     current_pos = 0
@@ -67,7 +66,6 @@ def run_diagnostics(current_state, diag_check, states):
             tape.appendleft(0)
     
     return sum(tape)
-
 
 # =============== TEST CASES ====================
 test_blueprint = """
@@ -99,7 +97,6 @@ In state B:
 start_state, diag_check, test_states = build_instructions(test_blueprint.split('\n'))
 assert run_diagnostics(start_state, diag_check, test_states) == 3
 
-
 # ================= PART 1 ======================
 blueprint = []
 
@@ -109,6 +106,5 @@ with open('./2017/inputs/d25.txt') as f:
 
 start_state, diag_check, states = build_instructions(blueprint)
 checksum = run_diagnostics(start_state, diag_check, states)
-
 
 print('Part 1 solution:', checksum)
